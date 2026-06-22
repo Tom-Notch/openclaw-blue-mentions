@@ -20,25 +20,32 @@
  * @param {RosterEntry[]} roster
  */
 export function buildMatcher(roster) {
-  const pairs = [];
+  // An alias may map to MORE THAN ONE id — e.g. a shared title like `丞相`
+  // (held by both Macbook + CN Desktop) or `部长` (the remote relays). Such a
+  // token fans out to every holder's `<@id>` so the whole group gets pinged.
+  const aliasToIds = new Map();
   for (const entry of roster) {
     for (const alias of entry.aliases) {
       const a = alias.trim().toLowerCase();
-      if (a) {
-        pairs.push([a, entry.id]);
+      if (!a) {
+        continue;
       }
+      const ids = aliasToIds.get(a) || [];
+      if (!ids.includes(entry.id)) {
+        ids.push(entry.id);
+      }
+      aliasToIds.set(a, ids);
     }
   }
-  // Longest alias first.
-  pairs.sort((x, y) => y[0].length - x[0].length);
-  const aliasToId = new Map(pairs);
-  const alternation = pairs.map(([a]) => escapeRegex(a)).join("|");
+  // Longest alias first so "cn router bot" wins over "router".
+  const aliases = [...aliasToIds.keys()].sort((x, y) => y.length - x.length);
+  const alternation = aliases.map(escapeRegex).join("|");
   // (?<![\w<&@]) — not already part of <@, <@&, an email, or a word.
   // @ then the alias, then a non-word boundary.
   const re = alternation
     ? new RegExp("(?<![\\w<&@])@(" + alternation + ")(?![\\w])", "giu")
     : null;
-  return { re, aliasToId };
+  return { re, aliasToIds };
 }
 
 function escapeRegex(s) {
@@ -72,7 +79,7 @@ function splitCode(text) {
  */
 export function rewriteMentions(text, cfg) {
   const onUnresolved = cfg.onUnresolved || "leave";
-  const { re, aliasToId } = buildMatcher(cfg.roster || []);
+  const { re, aliasToIds } = buildMatcher(cfg.roster || []);
   if (typeof text !== "string" || !text.includes("@")) {
     return { text, changed: false, resolved: 0, unresolved: [] };
   }
@@ -84,10 +91,10 @@ export function rewriteMentions(text, cfg) {
       continue;
     }
     seg.text = seg.text.replace(re, (_full, alias) => {
-      const id = aliasToId.get(String(alias).toLowerCase());
-      if (id) {
+      const ids = aliasToIds.get(String(alias).toLowerCase());
+      if (ids && ids.length) {
         resolved++;
-        return "<@" + id + ">";
+        return ids.map((id) => "<@" + id + ">").join(" ");
       }
       return _full;
     });

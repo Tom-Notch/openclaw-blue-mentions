@@ -34,8 +34,10 @@ eq("@cnrouter", r("@cnrouter restart").text, `<@${ROUTER}> restart`);
 eq("@CN Router Bot", r("hey @CN Router Bot fix it").text, `hey <@${ROUTER}> fix it`);
 eq("@CN Desktop Bot", r("@CN Desktop Bot 在吗").text, `<@${DESK}> 在吗`);
 eq("@Macbook Bot", r("@Macbook Bot review").text, `<@${MAC}> review`);
-// chinese alias
-eq("@丞相", r("@丞相 你看下").text, `<@${DESK}> 你看下`);
+// shared title 丞相 fans out to both chancellors (CN Desktop + Macbook)
+eq("@丞相", r("@丞相 你看下").text, `<@${DESK}> <@${MAC}> 你看下`);
+// shared title 部长 fans out to the three relays (LA + HK + CN Router)
+eq("@部长", r("@部长 报到").text, `<@${LA}> <@${HK}> <@${ROUTER}> 报到`);
 // case-insensitive
 eq("case @HK", r("@HK ok").text, `<@${HK}> ok`);
 // operator
