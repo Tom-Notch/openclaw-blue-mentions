@@ -7,15 +7,10 @@
 import { rewriteMentions } from "./mentions.js";
 import { DEFAULT_ROSTER } from "./roster.js";
 
-// definePluginEntry is an identity helper in the SDK; import it when available
-// so we match the documented contract, but fall back to a plain object export
-// so the plugin also loads as dependency-free ESM.
-let definePluginEntry = (x) => x;
-try {
-  ({ definePluginEntry } = await import("openclaw/plugin-sdk/plugin-entry"));
-} catch {
-  // SDK not resolvable from this load path; plain default export is fine.
-}
+// definePluginEntry is just an identity helper in the SDK. We keep a local
+// identity wrapper so the entry is dependency-free ESM and the gateway loader
+// (which does not support top-level await) parses it cleanly.
+const definePluginEntry = (x) => x;
 
 function resolveChannel(event) {
   return (
