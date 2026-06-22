@@ -1,0 +1,32 @@
+{
+  "id": "blue-mentions",
+  "name": "Blue Mentions",
+  "description": "Rewrite fleet @mentions in outbound Discord messages to native <@ID> blue mentions.",
+  "activation": {
+    "onStartup": true
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "onUnresolved": {
+        "type": "string",
+        "enum": ["leave", "plaintext", "cancel"],
+        "description": "What to do with bare @handles that don't resolve to a roster member. leave: untouched (default); plaintext: strip the @ so it can't render as a broken mention; cancel: refuse to send the message."
+      },
+      "roster": {
+        "type": "array",
+        "description": "Override the built-in fleet roster.",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "aliases"],
+          "properties": {
+            "id": { "type": "string" },
+            "aliases": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    }
+  }
+}
