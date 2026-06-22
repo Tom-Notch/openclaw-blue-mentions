@@ -66,7 +66,9 @@ Built-in (`roster.js`):
 | HK Bot         | `1515611687871447090` | `hk bot`, `hkbot`, `hk`                                   |
 | CN Router Bot  | `1515618342680002700` | `cn router bot`, `cnrouterbot`, `cnrouter`, `router`      |
 | CN Desktop Bot | `1515619018600611880` | `cn desktop bot`, `cndesktopbot`, `cndesktop`, `desktop`  |
-| Macbook Bot    | `1515220173336875030` | `macbook bot`, `macbook`, `mac`, `chancellor`, `丞相`     |
+| Macbook Bot    | `1515220173336875030` | `macbook bot`, `macbook`, `mac`                           |
+
+> ⚠️ `chancellor` / `丞相` are **disputed** (Macbook Bot vs CN Desktop Bot) and deliberately left out of the roster until Tom rules. They stay as plain text (`onUnresolved: leave`) so neither attribution gets hard-coded wrong.
 | Tom Notch      | `698118851388243999`  | `tom notch`, `tomnotch`, `tom`, `mukai`, `mukaiy`         |
 
 ## Test

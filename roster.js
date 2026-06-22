@@ -15,10 +15,12 @@ export const DEFAULT_ROSTER = [
     id: "1515619018600611880",
     aliases: ["cn desktop bot", "cndesktopbot", "cndesktop", "desktop"],
   }, // CN Desktop Bot
-  {
-    id: "1515220173336875030",
-    aliases: ["macbook bot", "macbook", "mac", "chancellor", "丞相"],
-  }, // Macbook Bot
+  { id: "1515220173336875030", aliases: ["macbook bot", "macbook", "mac"] }, // Macbook Bot
+  // NOTE: aliases `chancellor`/`丞相` are DISPUTED (Macbook Bot vs CN Desktop
+  // Bot 1515619018600611880). Deliberately NOT baked until Tom rules, so the
+  // plugin can't hard-code a wrong attribution. With onUnresolved:"leave" these
+  // tokens stay as plain text and mis-ping nobody. Add to the correct row once
+  // Tom decides.
   {
     id: "698118851388243999",
     aliases: ["tom notch", "tomnotch", "tom", "mukai", "mukaiy"],
