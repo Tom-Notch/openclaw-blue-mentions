@@ -65,8 +65,8 @@ Built-in (`roster.js`):
 | LA Bot         | `1515608451957391411` | `la bot`, `labot`, `la`                                   |
 | HK Bot         | `1515611687871447090` | `hk bot`, `hkbot`, `hk`                                   |
 | CN Router Bot  | `1515618342680002700` | `cn router bot`, `cnrouterbot`, `cnrouter`, `router`      |
-| CN Desktop Bot | `1515619018600611880` | `cn desktop bot`, `cndesktopbot`, `cndesktop`, `desktop`, `chancellor`, `丞相` |
-| Macbook Bot    | `1515220173336875030` | `macbook bot`, `macbook`, `mac`                           |
+| CN Desktop Bot | `1515619018600611880` | `cn desktop bot`, `cndesktopbot`, `cndesktop`, `desktop`  |
+| Macbook Bot    | `1515220173336875030` | `macbook bot`, `macbook`, `mac`, `chancellor`, `丞相`     |
 | Tom Notch      | `698118851388243999`  | `tom notch`, `tomnotch`, `tom`                            |
 
 ## Test

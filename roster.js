@@ -13,15 +13,11 @@ export const DEFAULT_ROSTER = [
   }, // CN Router Bot
   {
     id: "1515619018600611880",
-    aliases: [
-      "cn desktop bot",
-      "cndesktopbot",
-      "cndesktop",
-      "desktop",
-      "chancellor",
-      "丞相",
-    ],
+    aliases: ["cn desktop bot", "cndesktopbot", "cndesktop", "desktop"],
   }, // CN Desktop Bot
-  { id: "1515220173336875030", aliases: ["macbook bot", "macbook", "mac"] }, // Macbook Bot
+  {
+    id: "1515220173336875030",
+    aliases: ["macbook bot", "macbook", "mac", "chancellor", "丞相"],
+  }, // Macbook Bot
   { id: "698118851388243999", aliases: ["tom notch", "tomnotch", "tom"] }, // Tom Notch (operator)
 ];
