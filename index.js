@@ -12,13 +12,22 @@ import { DEFAULT_ROSTER } from "./roster.js";
 // (which does not support top-level await) parses it cleanly.
 const definePluginEntry = (x) => x;
 
-function resolveChannel(event) {
+function resolveChannel(event, ctx) {
+  // The `message_sending` hook is invoked as handler(event, ctx). In current
+  // OpenClaw the event is just `{ content, to }` and the channel lives on the
+  // ctx (`channelId`). Older/other call sites put it on the event. Check both
+  // so we don't silently bail and skip the rewrite (the bug that made every
+  // @mention ship as un-blue plaintext).
   return (
     event?.channel ||
     event?.surface ||
     event?.provider ||
     event?.ctx?.channel ||
     event?.context?.channel ||
+    ctx?.channelId ||
+    ctx?.channel ||
+    ctx?.surface ||
+    ctx?.provider ||
     null
   );
 }
@@ -44,8 +53,8 @@ export default definePluginEntry({
   register(api) {
     api.on(
       "message_sending",
-      async (event) => {
-        const channel = resolveChannel(event);
+      async (event, ctx) => {
+        const channel = resolveChannel(event, ctx);
         // Only Discord uses <@ID> mention syntax. If channel is unknown, be safe
         // and skip rather than corrupt another channel's text.
         if (channel && String(channel).toLowerCase() !== "discord") {
@@ -81,6 +90,13 @@ export default definePluginEntry({
           };
         }
         if (result.changed) {
+          console.log(
+            "[blue-mentions] channel=" +
+              channel +
+              " rewrote " +
+              result.resolved +
+              " mention(s) to <@ID> (changed=true)",
+          );
           return slot.set(result.text);
         }
         return;
